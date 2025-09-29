@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sagix-news-simplifier
+    env: python
+    buildCommand: pip install -r requirements.txt && python -m nltk.downloader punkt stopwords
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: NEWSAPI_KEY
+        sync: false
+    healthCheckPath: /
+
+---
+
+# Procfile (alternative deployment configuration)
+web: gunicorn app:app --bind 0.0.0.0:$PORT
+
+---
+
+# runtime.txt - Specify Python version
+python-3.11.0
