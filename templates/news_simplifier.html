@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SagiX - Financial News Made Simple</title>
+    <link rel="stylesheet" href="F:\new changes\news analysis\static\css\news-simplifer-style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="header-content">
+                <!-- Left Side: Logo and Name -->
+                <div class="logo" onclick="goBackHome()">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="sagix logo" class="logo-img">
+                    <h1 class="logo-text">SagiX</h1>
+                </div>
+    
+                <!-- Center: Title and Subtitle -->
+                <div class="title-section">
+                    <div class="app-title">
+                        <span class="title-icon">📰</span>
+                        Financial News Made Simple
+                    </div>
+                    <div class="app-subtitle">
+                        AI-powered financial news simplification for everyone
+                    </div>
+                </div>
+    
+                <!-- Right Side: Navigation -->
+                <div class="nav-section">
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" onclick="switchTab('newsSearch')">News Search</button>
+                        <button class="nav-tab" onclick="switchTab('textSimplifier')">Text Simplifier</button>
+                        <button class="nav-tab" onclick="switchTab('sentiment')">Sentiment Analysis</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                
+                <!-- News Search Tab -->
+                <div id="newsSearchTab" class="tab-content active">
+                    <!-- Info Section -->
+                    <section class="info-section">
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-icon">🔍</div>
+                                <h3>Smart News Search</h3>
+                                <p>Search for any financial topic and get the latest news automatically simplified</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">🚀</div>
+                                <h3>Real-Time Analysis</h3>
+                                <p>Fetches fresh news from multiple sources and simplifies complex terms instantly</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-icon">🎯</div>
+                                <h3>Indian Market Focus</h3>
+                                <p>Specialized in Indian financial news with context-aware simplification</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Search Section -->
+                    <section class="search-section">
+                        <div class="search-container">
+                            <h3>Search Financial News</h3>
+                            <div class="search-input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="newsSearchInput" 
+                                    class="search-input" 
+                                    placeholder="Search for companies, markets, or financial topics (e.g., 'Reliance Industries', 'Sensex', 'RBI Policy')"
+                                    autocomplete="off"
+                                >
+                                <button class="search-btn" onclick="searchNews()">
+                                    <span class="search-icon">🔍</span>
+                                </button>
+                            </div>
+
+                            <!-- Trending Topics -->
+                            <div class="trending-topics">
+                                <h4>Trending Topics:</h4>
+                                <div id="trendingTopics" class="trending-list">
+                                    <button class="trending-item" onclick="searchTrendingTopic('Stock Market India')">Stock Market</button>
+                                    <button class="trending-item" onclick="searchTrendingTopic('Sensex')">Sensex</button>
+                                    <button class="trending-item" onclick="searchTrendingTopic('RBI Policy')">RBI Policy</button>
+                                    <button class="trending-item" onclick="searchTrendingTopic('Cryptocurrency India')">Crypto</button>
+                                    <button class="trending-item" onclick="searchTrendingTopic('IPO India')">IPOs</button>
+                                </div>
+                            </div>
+
+                            <!-- Simplification Level -->
+                            <div class="simplification-controls">
+                                <h4>Choose Simplification Level:</h4>
+                                <div class="level-buttons">
+                                    <button class="level-btn active" data-level="basic">
+                                        <span class="level-title">Basic</span>
+                                        <span class="level-desc">Simple explanations</span>
+                                    </button>
+                                    <button class="level-btn" data-level="detailed">
+                                        <span class="level-title">Detailed</span>
+                                        <span class="level-desc">More context</span>
+                                    </button>
+                                    <button class="level-btn" data-level="expert">
+                                        <span class="level-title">Expert</span>
+                                        <span class="level-desc">Keep some terms</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- News Results -->
+                    <section id="newsResults" class="news-results">
+                        <div class="results-header">
+                            <h3 id="resultsTitle">Search Results</h3>
+                            <div class="results-meta">
+                                <span id="resultsCount">0 articles found</span>
+                                <button class="refresh-btn" onclick="searchNews()" title="Refresh Results">
+                                    🔄
+                                </button>
+                            </div>
+                        </div>
+                        <div id="articlesContainer" class="articles-container"></div>
+                    </section>
+                </div>
+
+                <!-- Text Simplifier Tab -->
+                <div id="textSimplifierTab" class="tab-content">
+                    <section class="text-simplifier-section">
+                        <h3>Simplify Your Own Text</h3>
+                        <p class="section-description">Paste any financial text and we'll make it easy to understand</p>
+                        
+                        <div class="text-input-area">
+                            <textarea 
+                                id="customText" 
+                                class="custom-text-input" 
+                                placeholder="Paste your financial news article, report, or any complex financial text here..."
+                                rows="8"
+                                maxlength="10000"
+                            ></textarea>
+                            <div class="input-footer">
+                                <span class="char-counter">
+                                    <span id="customCharCount">0</span> / 10,000 characters
+                                </span>
+                                <button class="simplify-btn" onclick="simplifyCustomText()">
+                                    <span class="btn-icon">✨</span>
+                                    Simplify Text
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Custom Text Results -->
+                        <div id="customTextResults" class="custom-text-results">
+                            <!-- Results will be populated here -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sentiment Analysis Tab -->
+                <div id="sentimentTab" class="tab-content">
+                    <div class="placeholder-content">
+                        <h3>Sentiment Analysis</h3>
+                        <p>This section would contain your existing sentiment analysis functionality.</p>
+                        <button class="btn btn--primary" onclick="window.location.href='sentiment.html'">
+                            Go to Sentiment Analysis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading Overlay -->
+                <div id="loadingOverlay" class="loading-overlay">
+                    <div class="loading-content">
+                        <div class="loading-spinner"></div>
+                        <h3 id="loadingTitle">Fetching Latest News...</h3>
+                        <p id="loadingDescription">Searching and analyzing financial news from multiple sources...</p>
+                        <div class="loading-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span class="progress-text" id="progressText">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast Notifications -->
+                <div id="toastContainer" class="toast-container"></div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeArticleModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close" onclick="closeArticleModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <span id="modalSource" class="modal-source"></span>
+                    <span id="modalDate" class="modal-date"></span>
+                    <div id="modalComplexity" class="complexity-indicator">
+                        <span class="complexity-label">Complexity:</span>
+                        <span class="complexity-badge">Medium</span>
+                    </div>
+                </div>
+                
+                <div class="modal-tabs">
+                    <button class="modal-tab-btn active" onclick="switchModalTab('original')">Original</button>
+                    <button class="modal-tab-btn" onclick="switchModalTab('simplified')">Simplified</button>
+                    <button class="modal-tab-btn" onclick="switchModalTab('analysis')">Analysis</button>
+                </div>
+
+                <div id="originalTab" class="modal-tab-content active">
+                    <div id="modalOriginalContent" class="modal-text-content"></div>
+                </div>
+
+                <div id="simplifiedTab" class="modal-tab-content">
+                    <div id="modalSimplifiedContent" class="modal-text-content"></div>
+                </div>
+
+                <div id="analysisTab" class="modal-tab-content">
+                    <div class="analysis-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="modalJargonCount">0</span>
+                            <span class="stat-label">Terms Simplified</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="modalReadabilityScore">0</span>
+                            <span class="stat-label">Readability Score</span>
+                        </div>
+                    </div>
+                    <div id="modalJargonList" class="jargon-explanations"></div>
+                    <div id="modalInsights" class="insights-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="F:\new changes\news analysis\static\js\news_simplifier_app.js"></script>
+</body>
+</html>
